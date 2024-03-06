@@ -5,4 +5,4 @@ services:
     volumes:
       - ./fastapi/app:/code/app
     ports:
-      - "80:80"
+      - "8000:80"
