@@ -6,11 +6,24 @@ app = FastAPI()
 
 class Item(BaseModel):
     name: str
-    description: Union[str, None] = Field(default=None, title="The description of the item", max_length=300)
-    price: float = Field(gt=0, description="The price must be greater than zero")
-    tax: float = None
+    description: Union[str, None] = None
+    price: float
+    tax: Union[float, None] = None
 
 @app.put("/items/{item_id}")
-async def update_item(item_id: int, item: Union[Item, None] = Body(default=None, embed=True)):
+async def update_item(
+    item_id: int,
+    item: Union[None, Item] = Body(
+        default=None,
+        examples=[
+            {
+                "name": "Foo",
+                "description": "A very nice Item",
+                "price": 35.4,
+                "tax": 3.2,
+            }
+        ],
+    ),
+):
     results = {"item_id": item_id, "item": item}
     return results
